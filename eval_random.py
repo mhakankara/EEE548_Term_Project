@@ -22,6 +22,7 @@ import argparse
 import gym
 import random
 import numpy as np
+import torch
 from tqdm import tqdm
 
 
@@ -158,11 +159,11 @@ def create_env(env_name, k=4, seed=0, crop=False) -> gym.Env:
 if __name__ == '__main__':
     # Environments considered in the paper
     env_list = ['BeamRider', 'Breakout', 'Enduro', 'Pong', 'Qbert', 'Seaquest', 'SpaceInvaders']
-
+    default_env = env_list[0]
     parser = argparse.ArgumentParser()
     parser.add_argument('--seed', default=0, type=int)                  
-    parser.add_argument('--env', default=env_list[0], choices=env_list)
-    parser.add_argument('--savepath', default='')
+    parser.add_argument('--env', default=default_env, choices=env_list)
+    parser.add_argument('--savepath', default=f'{default_env}_EVAL')
     parser.add_argument('--steps', default=10_000, type=int)
     parser.add_argument('--epsilon', default=1.0, type=float)
     parser.add_argument('--cropenv', action='store_true')
