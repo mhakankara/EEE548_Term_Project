@@ -128,17 +128,18 @@ def Eval(env, env_name,
         else:
             average_q_values.append(np.mean(max_q_values))
             
-    with open(fr'{savepath}\{env_name.title()}_reward_{seed}_EVAL.npy', 'wb') as f:
-        np.save(f, np.array(rewards_list))
-    
-    with open(fr'{savepath}\{env_name.title()}_Q_{seed}_EVAL.npy', 'wb') as f:
-        np.save(f, np.array(average_q_values))
-    
-    with open(fr'{savepath}\summary.txt', 'a') as f:
-        f.write(f'\n{env_name.title()} seed={seed} averages for evaluation: \tReward = {np.mean(rewards_list):.10} \tQ = {np.mean(average_q_values):.10}\n')
-        
-    return
+    reward_file_path = os.path.join(savepath, f'{env_name.title()}_reward_{seed}_EVAL.npy')
+    q_value_file_path = os.path.join(savepath, f'{env_name.title()}_Q_{seed}_EVAL.npy')
+    summary_file_path = os.path.join(savepath, 'summary.txt')
 
+    with open(reward_file_path, 'wb') as f:
+        np.save(f, np.array(rewards_list))
+
+    with open(q_value_file_path, 'wb') as f:
+        np.save(f, np.array(average_q_values))
+
+    with open(summary_file_path, 'a') as f:
+        f.write(f'\n{env_name.title()} seed={seed} averages for evaluation: \tReward = {np.mean(rewards_list):.10} \tQ = {np.mean(average_q_values):.10}\n')
 
 class AtariCropWrapper(gym.Wrapper):
     def __init__(self, env, game_name):
