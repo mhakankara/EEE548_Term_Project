@@ -1,0 +1,14 @@
+
+Beamrider seed=0 averages for evaluation: 	Reward = 12.94117647 	Q = 1.063217521
+
+Breakout seed=0 averages for evaluation: 	Reward = 0.3428571429 	Q = 8.407852173
+
+Enduro seed=0 averages for evaluation: 	Reward = 25.0 	Q = 1.175076246
+
+Pong seed=0 averages for evaluation: 	Reward = -21.0 	Q = 5.546129907e+10
+
+Qbert seed=0 averages for evaluation: 	Reward = 121.4041096 	Q = 10.31717491
+
+Seaquest seed=0 averages for evaluation: 	Reward = 20.86956522 	Q = 6.851694107
+
+Spaceinvaders seed=0 averages for evaluation: 	Reward = 92.5 	Q = 2.689763784

@@ -65,7 +65,7 @@ def Eval(env, env_name,
     
     # Initialize action-value function Q with random weights
     q_net = DQN(env.action_space.n).to(device)
-    q_net.load_state_dict(torch.load(weights_path))
+    q_net.load_state_dict(torch.load(weights_path, map_location=device))
     
     epoch = 0
     

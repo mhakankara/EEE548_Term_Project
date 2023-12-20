@@ -1,7 +1,7 @@
 import os
 import argparse
 import torch
-from eval import create_env, Eval
+from eval_random import create_env, Eval
 import fnmatch
 
 def is_cropped(case_name):
@@ -17,10 +17,10 @@ def find_weight_file(base_weights_path, orig_dir_name, env_name):
             return os.path.join(weights_dir, file_name)
     raise FileNotFoundError(f"No weight file found for environment '{env_name}' in directory '{weights_dir}'")
 
-def run_evaluation(env_name, seed, device, steps, epsilon, base_weights_path, case, cropenv):
+def run_evaluation(env_name, seed, device, steps, epsilon, base_weights_path, case, cropenv, output_dir):
     orig_dir_name = case
     save_dir_name = f'{orig_dir_name}_egreedy'
-    savepath = os.path.join(os.getcwd(), 'eval_results', save_dir_name)
+    savepath = os.path.join(os.getcwd(), output_dir, save_dir_name)
     weights = find_weight_file(base_weights_path, orig_dir_name, env_name)
 
     if not os.path.isdir(savepath):
@@ -47,8 +47,9 @@ if __name__ == '__main__':
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--device', default='cuda:0')
     parser.add_argument('--steps', default=10_000, type=int)
-    parser.add_argument('--epsilon', default=0.05, type=float)
+    parser.add_argument('--epsilon', default=1.0, type=float)
     parser.add_argument('--base_dir', default='results')  # Directory where different cases are stored
+    parser.add_argument('--output_dir', default='random_eval_results')
     args = parser.parse_args()
 
     env_list = ['BeamRider', 'Breakout', 'Enduro', 'Pong', 'Qbert', 'Seaquest', 'SpaceInvaders']
@@ -60,4 +61,5 @@ if __name__ == '__main__':
             cropenv = is_cropped(case)
             for env_name in env_list:
                 run_evaluation(env_name, args.seed, args.device, 
-                               args.steps, args.epsilon, args.base_dir, case, cropenv)
+                               args.steps, args.epsilon, args.base_dir, case, 
+                               cropenv, args.output_dir)
