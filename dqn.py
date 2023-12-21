@@ -283,13 +283,14 @@ class AtariCropWrapper(gym.Wrapper):
         return self.preprocess_observation(observation)
 
 
-def create_env(env_name, k=4, seed=0) -> gym.Env:
+def create_env(env_name, k=4, seed=0, crop=False) -> gym.Env:
     # env = gym.make(f'ALE/{env_name}-v5')
     env = gym.make(f'{env_name}NoFrameskip-v4') # Better behavior
     # env = gym.make(f'{env_name}NoFrameskip-v4', render_mode='human') # Better behavior
 
     # Replicate paper's conditions (grayscale, frameskip, etc.)
-    env = AtariCropWrapper(env, env_name)
+    if crop:
+        env = AtariCropWrapper(env, env_name)
     env = gym.wrappers.RecordEpisodeStatistics(env)
     env = gym.wrappers.ResizeObservation(env, (84, 84))
     env = gym.wrappers.GrayScaleObservation(env)
@@ -321,6 +322,7 @@ if __name__ == '__main__':
     parser.add_argument('--N', default=750_00, type=int)              
     parser.add_argument('--lr_scheduler', action='store_true')
     parser.add_argument('--clipgrads', action='store_true')
+    parser.add_argument('--cropenv', action='store_true')
     args = parser.parse_args()     
     
     savepath = os.path.join(os.getcwd(), args.savepath)
@@ -340,7 +342,7 @@ if __name__ == '__main__':
     # Create env
     # k = 3 if args.env == 'SpaceInvaders' else 4 # Lasers disappear, apparently
     k = 4
-    env = create_env(args.env, k=k, seed=args.seed)
+    env = create_env(args.env, k=k, seed=args.seed, crop=args.cropenv)
     
     print('Environment:', args.env)
     print('Device:', device)
