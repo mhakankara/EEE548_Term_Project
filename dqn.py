@@ -35,7 +35,7 @@ from torch.nn.utils import clip_grad_norm_
 from stable_baselines3.common.atari_wrappers import MaxAndSkipEnv
 from stable_baselines3.common.buffers import ReplayBuffer
 
-os.chdir('/auto/data2/alkilani/rl_2023')
+# os.chdir('/auto/data2/alkilani/rl_2023')
 
 
 class DQN(Module):
@@ -193,7 +193,8 @@ def DQL(env, env_name,
             epoch += 1
             
             # Plot and save
-            if (epoch % 50_000 == 0) and (epoch > 0):
+            plot_period = n_epochs // 100
+            if (epoch % plot_period == 0) and (epoch > 0):
                 smoothed_rewards.append(np.mean(rewards_list))
                 rewards_list = []
                 
@@ -282,13 +283,14 @@ class AtariCropWrapper(gym.Wrapper):
         return self.preprocess_observation(observation)
 
 
-def create_env(env_name, k=4, seed=0) -> gym.Env:
+def create_env(env_name, k=4, seed=0, crop=False) -> gym.Env:
     # env = gym.make(f'ALE/{env_name}-v5')
     env = gym.make(f'{env_name}NoFrameskip-v4') # Better behavior
     # env = gym.make(f'{env_name}NoFrameskip-v4', render_mode='human') # Better behavior
 
     # Replicate paper's conditions (grayscale, frameskip, etc.)
-    env = AtariCropWrapper(env, env_name)
+    if crop:
+        env = AtariCropWrapper(env, env_name)
     env = gym.wrappers.RecordEpisodeStatistics(env)
     env = gym.wrappers.ResizeObservation(env, (84, 84))
     env = gym.wrappers.GrayScaleObservation(env)
@@ -303,6 +305,10 @@ def create_env(env_name, k=4, seed=0) -> gym.Env:
     
     return env
 
+def clean_gpu_cache():
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
 if __name__ == '__main__':
     # Environments considered in the paper
     env_list = ['BeamRider', 'Breakout', 'Enduro', 'Pong', 'Qbert', 'Seaquest', 'SpaceInvaders']
@@ -312,10 +318,11 @@ if __name__ == '__main__':
     parser.add_argument('--env', default=env_list[0], choices=env_list)
     parser.add_argument('--savepath', default='Env_Plots')
     parser.add_argument('--device', default='cuda')
-    parser.add_argument('--epochs', default=5_000_000, type=int)
+    parser.add_argument('--epochs', default=1_000_000, type=int)
     parser.add_argument('--N', default=750_00, type=int)              
     parser.add_argument('--lr_scheduler', action='store_true')
     parser.add_argument('--clipgrads', action='store_true')
+    parser.add_argument('--cropenv', action='store_true')
     args = parser.parse_args()     
     
     savepath = os.path.join(os.getcwd(), args.savepath)
@@ -330,11 +337,12 @@ if __name__ == '__main__':
         device = 'cpu'
     else:
         device = torch.device(args.device)
+        clean_gpu_cache()
     
     # Create env
     # k = 3 if args.env == 'SpaceInvaders' else 4 # Lasers disappear, apparently
     k = 4
-    env = create_env(args.env, k=k, seed=args.seed)
+    env = create_env(args.env, k=k, seed=args.seed, crop=args.cropenv)
     
     print('Environment:', args.env)
     print('Device:', device)
@@ -343,6 +351,5 @@ if __name__ == '__main__':
     DQL(env, args.env, n_epochs=args.epochs, N=args.N, update_f=k, device=device, seed=args.seed, savepath=savepath, lr_scheduler=args.lr_scheduler, clip_grads=args.clipgrads)
     
     env.close()
-            
 
 
