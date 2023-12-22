@@ -1,7 +1,7 @@
 import os
 import argparse
 import torch
-from eval_random import create_env, Eval
+from eval import create_env, Eval
 import fnmatch
 
 def is_cropped(case_name):
@@ -19,7 +19,7 @@ def find_weight_file(base_weights_path, orig_dir_name, env_name):
 
 def run_evaluation(env_name, seed, device, steps, epsilon, base_weights_path, case, cropenv, output_dir):
     orig_dir_name = case
-    save_dir_name = f'{orig_dir_name}_egreedy'
+    save_dir_name = f'{orig_dir_name}_no_greedy'
     savepath = os.path.join(os.getcwd(), output_dir, save_dir_name)
     weights = find_weight_file(base_weights_path, orig_dir_name, env_name)
 
@@ -47,9 +47,9 @@ if __name__ == '__main__':
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--device', default='cuda:0')
     parser.add_argument('--steps', default=10_000, type=int)
-    parser.add_argument('--epsilon', default=1.0, type=float)
-    parser.add_argument('--base_dir', default='results')  # Directory where different cases are stored
-    parser.add_argument('--output_dir', default='random_eval_results')
+    parser.add_argument('--epsilon', default=0.0, type=float)
+    parser.add_argument('--base_dir', default='results') 
+    parser.add_argument('--output_dir', default='no_greedy_eval_results')
     args = parser.parse_args()
 
     env_list = ['BeamRider', 'Breakout', 'Enduro', 'Pong', 'Qbert', 'Seaquest', 'SpaceInvaders']

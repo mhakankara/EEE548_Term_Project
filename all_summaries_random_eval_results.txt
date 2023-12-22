@@ -1,0 +1,68 @@
+Env_Plots_uncropped_noLRS_random
+
+Beamrider seed=0 averages for evaluation: 	Reward = 195.5555556 	Q = nan
+
+Breakout seed=0 averages for evaluation: 	Reward = 0.170575693 	Q = nan
+
+Enduro seed=0 averages for evaluation: 	Reward = -1.0 	Q = nan
+
+Pong seed=0 averages for evaluation: 	Reward = -21.0 	Q = nan
+
+Qbert seed=0 averages for evaluation: 	Reward = 67.79891304 	Q = nan
+
+Seaquest seed=0 averages for evaluation: 	Reward = 20.0 	Q = nan
+
+Spaceinvaders seed=0 averages for evaluation: 	Reward = 65.5 	Q = nan
+
+
+Env_Plots_cropped_ExponentialLRS_random
+
+Beamrider seed=0 averages for evaluation: 	Reward = 176.0 	Q = nan
+
+Breakout seed=0 averages for evaluation: 	Reward = 0.09981515712 	Q = nan
+
+Enduro seed=0 averages for evaluation: 	Reward = -1.0 	Q = nan
+
+Pong seed=0 averages for evaluation: 	Reward = -20.0 	Q = nan
+
+Qbert seed=0 averages for evaluation: 	Reward = 63.03763441 	Q = nan
+
+Seaquest seed=0 averages for evaluation: 	Reward = 28.76712329 	Q = nan
+
+Spaceinvaders seed=0 averages for evaluation: 	Reward = 66.76470588 	Q = nan
+
+
+Env_Plots_cropped_ExponentialLRS_ClippedGradients_random
+
+Beamrider seed=0 averages for evaluation: 	Reward = 195.5555556 	Q = nan
+
+Breakout seed=0 averages for evaluation: 	Reward = 0.1431451613 	Q = nan
+
+Enduro seed=0 averages for evaluation: 	Reward = -1.0 	Q = nan
+
+Pong seed=0 averages for evaluation: 	Reward = -21.0 	Q = nan
+
+Qbert seed=0 averages for evaluation: 	Reward = 70.18072289 	Q = nan
+
+Seaquest seed=0 averages for evaluation: 	Reward = 22.33766234 	Q = nan
+
+Spaceinvaders seed=0 averages for evaluation: 	Reward = 67.55319149 	Q = nan
+
+
+Env_Plots_cropped_WarmRestartsCosineLRS_random
+
+Beamrider seed=0 averages for evaluation: 	Reward = 151.8 	Q = nan
+
+Breakout seed=0 averages for evaluation: 	Reward = 0.1448692153 	Q = nan
+
+Enduro seed=0 averages for evaluation: 	Reward = -1.0 	Q = nan
+
+Pong seed=0 averages for evaluation: 	Reward = -20.0 	Q = nan
+
+Qbert seed=0 averages for evaluation: 	Reward = 81.87134503 	Q = nan
+
+Seaquest seed=0 averages for evaluation: 	Reward = 18.66666667 	Q = nan
+
+Spaceinvaders seed=0 averages for evaluation: 	Reward = 56.02040816 	Q = nan
+
+
